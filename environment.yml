@@ -1,0 +1,6 @@
+name: object_detection
+channels:
+  - defaults
+dependencies:
+  - python=3.10
+prefix: D:\Anaconda\envs\object_detection
