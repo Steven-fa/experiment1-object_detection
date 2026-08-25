@@ -1,0 +1,40 @@
+# Python virtual environment
+yolo_env/
+venv/
+.venv/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# IDE
+.vscode/
+.idea/
+
+# Ultralytics training output
+runs/
+training/
+
+# Dataset
+dataset/images/
+dataset/labels/
+raw_data/
+
+# Large models
+*.pt
+*.engine
+*.onnx
+
+# Videos
+*.mp4
+*.avi
+*.mov
+
+# Temporary files
+*.tmp
+*.log
+
+# Windows
+Thumbs.db
+desktop.ini
