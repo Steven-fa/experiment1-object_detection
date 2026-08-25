@@ -1,0 +1,2 @@
+mouse: 165
+bottle: 200

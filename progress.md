@@ -78,3 +78,37 @@ Completed tasks:
 
 \- Downloaded YOLO11n pretrained model
 
+
+
+
+
+Step 4 - Raw Dataset Preparation
+
+
+
+Status: Completed
+
+
+
+Completed tasks:
+
+
+
+\- Created dataset directory structure
+
+\- Added mouse video
+
+\- Added bottle video
+
+\- Created reusable video frame extraction script
+
+\- Extracted raw mouse images
+
+\- Extracted raw cup images
+
+\- Manually inspected extracted images
+
+\- Removed invalid and low-quality samples
+
+\- Recorded raw dataset statistics
+
