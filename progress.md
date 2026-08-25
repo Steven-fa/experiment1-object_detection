@@ -24,3 +24,37 @@ Completed tasks:
 
 \- Created progress.md
 
+
+
+
+
+Step 1 - Python Environment Setup
+
+
+
+Status: Completed
+
+
+
+Completed tasks:
+
+
+
+\- Created Conda environment
+
+\- Verified pip
+
+\- Exported environment.yml
+
+
+
+
+
+Step 2 - PyTorch GPU Environment
+
+
+
+Status: Completed
+
+
+
