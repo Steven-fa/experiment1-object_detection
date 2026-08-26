@@ -112,3 +112,29 @@ Completed tasks:
 
 \- Recorded raw dataset statistics
 
+
+
+
+
+Step 5 - Dataset Annotation
+
+
+
+Status: Completed
+
+
+
+Completed tasks:
+
+
+
+\- Annotated mouse images in YOLO format
+
+\- Annotated bottle images in YOLO format
+
+\- Checked class IDs
+
+\- Checked missing label files
+
+
+
