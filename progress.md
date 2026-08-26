@@ -158,3 +158,13 @@ Dataset split:
 
 \- Test: approximately 15%
 
+
+
+
+
+Step 7 - First YOLO Training
+
+
+
+Status: Completed
+
