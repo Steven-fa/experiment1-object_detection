@@ -138,3 +138,23 @@ Completed tasks:
 
 
 
+
+
+Step 6 - Dataset Split
+
+
+
+Status: Completed
+
+
+
+Dataset split:
+
+
+
+\- Train: approximately 70%
+
+\- Validation: approximately 15%
+
+\- Test: approximately 15%
+
