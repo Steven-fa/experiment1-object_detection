@@ -50,12 +50,6 @@ class YoloDetectorNode(Node):
         self.start_time = time.perf_counter()
         self.camera_error_count = 0
 
-        # Initialize accumulators
-        self.read_ms_sum = 0.0
-        self.infer_ms_sum = 0.0
-        self.publish_ms_sum = 0.0
-        self.total_ms_sum = 0.0
-
         # Schedule frame processing to run again as soon as possible
         self.timer = self.create_timer(0.001, self.process_frame)
 
@@ -67,15 +61,10 @@ class YoloDetectorNode(Node):
             "Publishing: /detections and /detector/fps only."
         )
 
-    # Read, detect, package, publish, and profile one camera frame.
+    # Read, detect, package, and publish one camera frame
     def process_frame(self):
-        # Start timing the complete frame-processing cycle
-        total_start = time.perf_counter()
-
-        # Capture one image and measure the camera read duration
-        read_start = time.perf_counter()
+        # Capture one image from the camera
         ret, frame = self.cap.read()
-        read_end = time.perf_counter()
 
         # Stop the node after repeated reads fail and reset on success
         if not ret:
@@ -89,8 +78,7 @@ class YoloDetectorNode(Node):
 
         self.camera_error_count = 0
 
-        # Run YOLO inference and measure its duration.
-        infer_start = time.perf_counter()
+        # Run YOLO inference
         results = self.model.predict(
             source=frame,
             imgsz=self.image_size,
@@ -98,7 +86,6 @@ class YoloDetectorNode(Node):
             device=0,
             verbose=False,
         )
-        infer_end = time.perf_counter()
 
         # Select the prediction result for the single input frame.
         result = results[0]
@@ -145,7 +132,6 @@ class YoloDetectorNode(Node):
             detection_array.detections.append(detection)
 
         # Publish all detections found in the current frame.
-        publish_start = time.perf_counter()
         self.detection_pub.publish(detection_array)
 
         # Calculate the average FPS across all successful frames.
@@ -161,48 +147,6 @@ class YoloDetectorNode(Node):
         fps_msg = Float32()
         fps_msg.data = float(avg_fps)
         self.fps_pub.publish(fps_msg)
-        publish_end = time.perf_counter()
-
-        total_end = time.perf_counter()
-
-        # Accumulate stage timings for the current 30-frame window.
-        self.read_ms_sum += (read_end - read_start) * 1000.0
-        self.infer_ms_sum += (infer_end - infer_start) * 1000.0
-        self.publish_ms_sum += (publish_end - publish_start) * 1000.0
-        self.total_ms_sum += (total_end - total_start) * 1000.0
-
-        # Report average timings and loop FPS after every 30 frames.
-        if self.frame_count % 30 == 0:
-            n = 30.0
-
-            # Convert accumulated timings into per-frame averages.
-            read_ms = self.read_ms_sum / n
-            infer_ms = self.infer_ms_sum / n
-            publish_ms = self.publish_ms_sum / n
-            total_ms = self.total_ms_sum / n
-
-            # Estimate loop FPS from the average total frame time.
-            loop_fps = (
-                1000.0 / total_ms
-                if total_ms > 0.0
-                else 0.0
-            )
-
-            # Write the latest performance summary to the ROS 2 log.
-            self.get_logger().info(
-                f"AVG FPS={avg_fps:.2f} | "
-                f"loop FPS={loop_fps:.2f} | "
-                f"read={read_ms:.1f}ms | "
-                f"infer={infer_ms:.1f}ms | "
-                f"publish={publish_ms:.1f}ms | "
-                f"total={total_ms:.1f}ms"
-            )
-
-            # Reset all accumulators for the next statistics window.
-            self.read_ms_sum = 0.0
-            self.infer_ms_sum = 0.0
-            self.publish_ms_sum = 0.0
-            self.total_ms_sum = 0.0
 
     # Release the camera before delegating cleanup to the base class.
     def destroy_node(self):
